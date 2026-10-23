@@ -1,12 +1,12 @@
-name: Deploy materialize-master (CF Gen2 + Cloud Scheduler)
+name: Deploy materialize-llm (CF Gen2 + Cloud Scheduler)
 
 on:
   workflow_dispatch:
   push:
     branches: [ main ]
     paths:
-      - 'cloud_function/materialize-master/**'
-      - '.github/workflows/deploy-materialize-master.yml'
+      - 'cloud_function/materialize-llm/**'
+      - '.github/workflows/deploy-materialize-llm.yml'
 
 permissions:
   contents: read
@@ -15,8 +15,8 @@ permissions:
 env:
   PROJECT_ID: ${{ vars.PROJECT_ID }}
   REGION: ${{ vars.REGION }}
-  FUNCTION_NAME: materialize-master
-  FUNCTION_DIR: cloud_function/materialize-master
+  FUNCTION_NAME: materialize-llm
+  FUNCTION_DIR: cloud_function/materialize-llm
   ENTRY_POINT: materialize_http
   RUNTIME: python312
   BUCKET_NAME: ${{ vars.BUCKET_NAME }}
@@ -27,7 +27,7 @@ env:
   DEPLOYER_SA: ${{ vars.DEPLOYER_SA }}
   WORKLOAD_IDENTITY_PROVIDER: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
   SCHEDULE_BODY: ${{ vars.MATERIALIZE_BODY || '{}' }}
-  CRON_EXPR: "15 * * * *"   # :15 each hour
+  CRON_EXPR: "17 * * * *"   # :17, after Gemini at :12
 
 jobs:
   deploy:
